@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "trained_at_utc": "2026-01-18T04:44:29.576768+00:00",
+  "top_n_locations": 20,
+  "rare_location_threshold": 10,
+  "numeric_features": [
+    "area",
+    "rooms",
+    "bathrooms",
+    "age"
+  ],
+  "n_rows_after_dropna": 2972,
+  "location_summary": {
+    "top_locations": [
+      {
+        "location": "Hammamet",
+        "count": 138
+      },
+      {
+        "location": "Hammamet Nord",
+        "count": 115
+      },
+      {
+        "location": "Cité Ennasr 2",
+        "count": 113
+      },
+      {
+        "location": "La Soukra",
+        "count": 113
+      },
+      {
+        "location": "Djerba",
+        "count": 103
+      },
+      {
+        "location": "Cité El Wafa",
+        "count": 102
+      },
+      {
+        "location": "Les Jardins de Carthage",
+        "count": 100
+      },
+      {
+        "location": "Aouina",
+        "count": 88
+      },
+      {
+        "location": "Kélibia",
+        "count": 80
+      },
+      {
+        "location": "La Marsa",
+        "count": 69
+      },
+      {
+        "location": "Ain Zaghouan Nord",
+        "count": 67
+      },
+      {
+        "location": "Hammamet Sud",
+        "count": 58
+      },
+      {
+        "location": "Chotrana 1",
+        "count": 56
+      },
+      {
+        "location": "Nabeul",
+        "count": 52
+      },
+      {
+        "location": "Les Berges Du Lac 2",
+        "count": 50
+      },
+      {
+        "location": "Sahloul",
+        "count": 47
+      },
+      {
+        "location": "El Menzah 9",
+        "count": 41
+      },
+      {
+        "location": "Yasmine Hammamet",
+        "count": 41
+      },
+      {
+        "location": "Bizerte",
+        "count": 40
+      },
+      {
+        "location": "Gammarth",
+        "count": 38
+      }
+    ],
+    "bucketed_locations_count": 257,
+    "bucketed_total_rows_count": 772,
+    "distinct_locations_pre_bucket": 316,
+    "distinct_locations_post_bucket": 60
+  },
+  "notes": {
+    "counts_source": "data.csv after dropna over kept columns (no pandas)",
+    "other_hidden_in_ui": true
+  }
+}
