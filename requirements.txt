@@ -4,3 +4,6 @@ scikit-learn
 matplotlib
 seaborn
 safetensors
+fastapi
+uvicorn[standard]
+pydantic

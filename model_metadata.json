@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "trained_at_utc": "2026-01-18T04:44:29.576768+00:00",
+  "trained_at_utc": "2026-01-18T23:33:31.577294+00:00",
   "top_n_locations": 20,
   "rare_location_threshold": 10,
   "numeric_features": [
@@ -9,7 +9,8 @@
     "bathrooms",
     "age"
   ],
-  "n_rows_after_dropna": 2972,
+  "n_training_rows": 1431,
+  "n_features": 64,
   "location_summary": {
     "top_locations": [
       {
@@ -21,11 +22,11 @@
         "count": 115
       },
       {
-        "location": "Cité Ennasr 2",
+        "location": "La Soukra",
         "count": 113
       },
       {
-        "location": "La Soukra",
+        "location": "Cité Ennasr 2",
         "count": 113
       },
       {
@@ -77,11 +78,11 @@
         "count": 47
       },
       {
-        "location": "El Menzah 9",
+        "location": "Yasmine Hammamet",
         "count": 41
       },
       {
-        "location": "Yasmine Hammamet",
+        "location": "El Menzah 9",
         "count": 41
       },
       {
@@ -97,9 +98,5 @@
     "bucketed_total_rows_count": 772,
     "distinct_locations_pre_bucket": 316,
     "distinct_locations_post_bucket": 60
-  },
-  "notes": {
-    "counts_source": "data.csv after dropna over kept columns (no pandas)",
-    "other_hidden_in_ui": true
   }
 }
