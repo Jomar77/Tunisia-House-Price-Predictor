@@ -64,13 +64,24 @@ The frontend will be available at `http://localhost:5173`.
 │   │   ├── hooks/            # Custom hooks (TanStack Query)
 │   │   └── App.tsx           # Main app component
 │   └── package.json
-├── columns.json              # Feature schema (source of truth)
-├── model_metadata.json       # Model training metadata
-├── tunisia_home_prices_model.safetensors  # Model weights
-├── data.csv                  # Training dataset
-├── dataScrape.py            # Data scraper
-└── main.ipynb               # Training notebook
+├── artifacts/                # Exported inference artifacts (preferred location)
+│   ├── columns.json          # Feature schema (source of truth)
+│   ├── model_metadata.json   # Model training metadata
+│   └── tunisia_home_prices_model.safetensors  # Model weights
+├── docs/                     # Project docs (canonical)
+│   ├── SETUP.md
+│   ├── MASTER_TEST_PLAN.md
+│   └── IMPLEMENTATION_SUMMARY.md
+├── notebooks/                # Training & exploration notebooks
+│   └── main.ipynb
+├── scripts/                  # Tooling (not production runtime)
+│   ├── verify_export.py      # Export parity verifier
+│   └── dataScrape.py         # Legacy scraper
+├── data.csv                  # Training dataset (legacy location)
+└── main.ipynb                # Training notebook (legacy location / pointer)
 ```
+
+Note: The backend prefers loading artifacts from `artifacts/` but will fall back to the repository root for backward compatibility.
 
 ## 🔧 Features
 

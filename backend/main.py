@@ -34,10 +34,16 @@ async def lifespan(app: FastAPI):
     
     logger.info("🚀 Starting Tunisia House Price Predictor API...")
     
-    # Define paths to artifacts
-    base_path = Path(__file__).parent.parent
-    model_path = base_path / "tunisia_home_prices_model.safetensors"
-    columns_path = base_path / "columns.json"
+    # Define paths to artifacts (prefer artifacts/; fallback to repo root)
+    repo_root = Path(__file__).resolve().parent.parent
+    artifacts_dir = repo_root / "artifacts"
+
+    def artifact_path(filename: str) -> Path:
+        preferred = artifacts_dir / filename
+        return preferred if preferred.exists() else (repo_root / filename)
+
+    model_path = artifact_path("tunisia_home_prices_model.safetensors")
+    columns_path = artifact_path("columns.json")
     
     try:
         # Load columns.json (feature contract)

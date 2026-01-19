@@ -6,7 +6,9 @@ import numpy as np
 
 def test_unknown_location_maps_to_other():
     repo_root = Path(__file__).resolve().parent.parent
-    columns = json.loads((repo_root / "columns.json").read_text(encoding="utf-8"))
+    preferred = repo_root / "artifacts" / "columns.json"
+    columns_path = preferred if preferred.exists() else (repo_root / "columns.json")
+    columns = json.loads(columns_path.read_text(encoding="utf-8"))
 
     from backend.domain.vectorizer import FeatureVectorizer
 

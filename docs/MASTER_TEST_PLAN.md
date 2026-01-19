@@ -66,7 +66,7 @@ Parity testing proves the backend NumPy implementation matches a scikit-learn re
 - **Success Criteria**:
   - All assertions pass; otherwise block release.
 
-### Test 2.2 — Parity script (`verify_export.py`)
+### Test 2.2 — Parity script (`scripts/verify_export.py`)
 - **Goal**: Prove `np.dot` inference equals scikit-learn `predict()` within tolerance.
 - **Method / Code Logic**:
   - Load artifacts (`columns.json`, `tunisia_home_prices_model.safetensors`).

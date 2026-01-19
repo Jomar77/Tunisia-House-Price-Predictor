@@ -87,7 +87,9 @@ async def get_metadata(predictor: PredictorDep) -> MetadataResponse:
         import json
         from pathlib import Path
         
-        metadata_path = Path(__file__).parent.parent.parent.parent / "model_metadata.json"
+        repo_root = Path(__file__).resolve().parent.parent.parent.parent
+        preferred = repo_root / "artifacts" / "model_metadata.json"
+        metadata_path = preferred if preferred.exists() else (repo_root / "model_metadata.json")
         
         with open(metadata_path, "r", encoding="utf-8") as f:
             metadata = json.load(f)

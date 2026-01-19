@@ -28,10 +28,12 @@ pip install -r requirements.txt
 
 #### Verify Model Artifacts
 
-Ensure these files exist in the root directory:
-- `tunisia_home_prices_model.safetensors` - Model weights
-- `columns.json` - Feature schema
-- `model_metadata.json` - Model metadata
+Preferred: ensure these files exist under `artifacts/`:
+- `artifacts/tunisia_home_prices_model.safetensors` - Model weights
+- `artifacts/columns.json` - Feature schema
+- `artifacts/model_metadata.json` - Model metadata
+
+Backward compatible: the backend will also look in the repository root for these files.
 
 If missing, run the training notebook `main.ipynb` to generate them.
 

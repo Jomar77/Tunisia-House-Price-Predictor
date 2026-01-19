@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "trained_at_utc": "2026-01-18T23:33:31.577294+00:00",
+  "top_n_locations": 20,
+  "rare_location_threshold": 10,
+  "numeric_features": [
+    "area",
+    "rooms",
+    "bathrooms",
+    "age"
+  ],
+  "n_training_rows": 1431,
+  "n_features": 64,
+  "location_summary": {
+    "top_locations": [
+      {
+        "location": "Hammamet",
+        "count": 138
+      },
+      {
+        "location": "Hammamet Nord",
+        "count": 115
+      },
+      {
+        "location": "La Soukra",
+        "count": 113
+      },
+      {
+        "location": "Cité Ennasr 2",
+        "count": 113
+      },
+      {
+        "location": "Djerba",
+        "count": 103
+      },
+      {
+        "location": "Cité El Wafa",
+        "count": 102
+      },
+      {
+        "location": "Les Jardins de Carthage",
+        "count": 100
+      },
+      {
+        "location": "Aouina",
+        "count": 88
+      },
+      {
+        "location": "Kélibia",
+        "count": 80
+      },
+      {
+        "location": "La Marsa",
+        "count": 69
+      },
+      {
+        "location": "Ain Zaghouan Nord",
+        "count": 67
+      },
+      {
+        "location": "Hammamet Sud",
+        "count": 58
+      },
+      {
+        "location": "Chotrana 1",
+        "count": 56
+      },
+      {
+        "location": "Nabeul",
+        "count": 52
+      },
+      {
+        "location": "Les Berges Du Lac 2",
+        "count": 50
+      },
+      {
+        "location": "Sahloul",
+        "count": 47
+      },
+      {
+        "location": "Yasmine Hammamet",
+        "count": 41
+      },
+      {
+        "location": "El Menzah 9",
+        "count": 41
+      },
+      {
+        "location": "Bizerte",
+        "count": 40
+      },
+      {
+        "location": "Gammarth",
+        "count": 38
+      }
+    ],
+    "bucketed_locations_count": 257,
+    "bucketed_total_rows_count": 772,
+    "distinct_locations_pre_bucket": 316,
+    "distinct_locations_post_bucket": 60
+  }
+}
