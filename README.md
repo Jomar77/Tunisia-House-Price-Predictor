@@ -1,48 +1,166 @@
-# Tunisian House Price Prediction
-This is a Github repository containing a machine learning model for predicting house prices in Tunisia. The model is built using Python and utilizes various libraries for data analysis and machine learning such as pandas, scikit-learn, and XGBoost.
+# Tunisia House Price Predictor
 
-## Dataset
-The dataset used for training and testing the model is a collection of Tunisian house prices, including features such as number of bedrooms, area, location, and other relevant information. The dataset is available in the data folder of this repository.
+A full-stack web application for predicting house prices in Tunisia using machine learning. The system uses a Linear Regression model trained on Tunisian real estate data and exposes predictions through a modern React frontend connected to a FastAPI backend.
 
-## Setup and Installation
-To set up the environment and run the code in this repository, please follow the instructions below:
+## 🏗️ Architecture
 
-Clone the repository onto your local machine using the following command:
+This project follows a **Hexagonal Architecture** (Ports & Adapters) pattern:
 
-```
-git clone https://github.com/Jomar77/tunisian-house-price-prediction.git
-```
+- **Frontend**: React + TypeScript + Vite + TanStack Query
+- **Backend**: FastAPI (async) with hexagonal architecture
+- **Model**: Linear Regression with Safetensors (no pickle)
+- **Deployment Ready**: Containerizable, serverless-compatible
 
-Install the necessary libraries by running the following command in your terminal:
+## 🚀 Quick Start
 
-```
+### Prerequisites
+
+- Python 3.11+
+- Node.js 18+
+- npm
+
+### Backend Setup
+
+```bash
+# Install Python dependencies
 pip install -r requirements.txt
+
+# Start the FastAPI server (from project root)
+python -m uvicorn backend.main:app --reload --port 8000
 ```
-Once the dependencies are installed, open the tunisian-house-price-prediction.ipynb notebook in Jupyter and run the cells to clean the data, analyze it using linear regression, lasso regression, and decision tree regressor, and visualize it using heatmaps and histograms.
 
-Once the analysis is complete, train the model using the train.py script in the src directory:
+The API will be available at `http://localhost:8000` with interactive docs at `http://localhost:8000/docs`.
+
+### Frontend Setup
+
+```bash
+# Navigate to frontend directory
+cd frontend
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+The frontend will be available at `http://localhost:5173`.
+
+## 📁 Project Structure
 
 ```
-cd src
-python main.ipynb
+├── backend/                   # FastAPI backend
+│   ├── domain/               # Core business logic
+│   │   ├── predictor.py      # Prediction service
+│   │   └── vectorizer.py     # Feature vectorization
+│   ├── adapters/             # External interfaces
+│   │   ├── api/              # FastAPI routes & schemas
+│   │   └── inference/        # Model loading (Safetensors)
+│   └── main.py               # Application entry point
+├── frontend/                  # React frontend
+│   ├── src/
+│   │   ├── api/              # API client (native fetch)
+│   │   ├── components/       # React components
+│   │   ├── hooks/            # Custom hooks (TanStack Query)
+│   │   └── App.tsx           # Main app component
+│   └── package.json
+├── columns.json              # Feature schema (source of truth)
+├── model_metadata.json       # Model training metadata
+├── tunisia_home_prices_model.safetensors  # Model weights
+├── data.csv                  # Training dataset
+├── dataScrape.py            # Data scraper
+└── main.ipynb               # Training notebook
 ```
-Once the model is run, it will give you a pickle file that can be used for predicting the house market.
 
-## Results
-The analysis using linear regression, lasso regression, and decision tree regressor revealed that certain features such as area, location, and number of bedrooms have a significant impact on house prices in Tunisia. 
+## 🔧 Features
 
-## Website Deployment Attempt
-This repository was originally meant to be used for a website that predicts Tunisian house prices by inputting the number of rooms, bathrooms, size, and location of the house. However, deployment issues forced me to give up on this project. If you are interested in the web application aspect of this project, please refer to this [repo](https://github.com/Jomar77/The-Jomar-Project) for the website deployment attempt.
+### Frontend
+- ✨ Clean, responsive UI with real-time validation
+- 📍 Dynamic location dropdown loaded from API
+- 🔄 Loading states and error handling
+- 💰 Formatted price predictions in EUR
 
-## Future Improvements
-In the future, there are several ways that this project could be improved:
+### Backend
+- ⚡ Fast async API with automatic documentation
+- 🛡️ Input validation with Pydantic
+- 🎯 Hexagonal architecture for maintainability
+- 🔒 Secure model loading with Safetensors (no pickle)
+- 📊 Model metadata endpoint for UI configuration
 
-Add more features to the model to improve its accuracy. For example, the age of the house or the quality of the house materials could be included as predictors.
-Explore other machine learning algorithms to compare their performance with the current model. For example, a random forest or a neural network might be able to achieve higher accuracy than the current model.
-Fix the deployment issues and create a web application to make the model accessible to a wider audience. This could involve using a cloud computing platform such as Google Cloud or Amazon Web Services to host the application.
+### API Endpoints
 
-## Contributing
-If you would like to contribute to this repository, please feel free to submit a pull request or create an issue. All contributions are welcome!
+- `POST /api/v1/predict` - Predict house price
+- `GET /api/v1/metadata` - Get model info and supported locations
+- `GET /api/v1/health` - Health check
 
-## License
-This repository is licensed under the MIT License. Please see the LICENSE file for more information.
+## 📊 Dataset
+
+The model is trained on Tunisian house price data including:
+- **Numeric Features**: Area (m²), Rooms, Bathrooms, Age (years)
+- **Categorical Features**: Location (60+ Tunisian locations)
+- **Target**: House price in EUR
+
+## 🧠 Model Training
+
+The model is trained using the Jupyter notebook `main.ipynb`:
+
+1. Data cleaning and outlier removal
+2. Feature engineering (one-hot encoding for locations)
+3. Linear Regression training
+4. Export to Safetensors format
+5. Generate `columns.json` and `model_metadata.json`
+
+## 🔐 Security & Best Practices
+
+- ✅ No pickle files (uses Safetensors)
+- ✅ Input validation on all endpoints
+- ✅ CORS configured for development
+- ✅ Type-safe with TypeScript and Pydantic
+- ✅ Native fetch API (no external HTTP libraries in frontend)
+
+## 🛠️ Development
+
+### Running Tests
+
+```bash
+# Backend (if tests exist)
+pytest
+
+# Frontend (if tests exist)
+cd frontend && npm test
+```
+
+### Building for Production
+
+```bash
+# Frontend
+cd frontend
+npm run build
+
+# Backend - use production ASGI server
+uvicorn backend.main:app --host 0.0.0.0 --port 8000
+```
+
+## 📝 Environment Variables
+
+### Frontend (.env)
+```env
+VITE_API_URL=http://localhost:8000/api/v1
+```
+
+## 🎯 Future Enhancements
+
+- [ ] PostgreSQL integration for prediction logging
+- [ ] User feedback collection endpoint
+- [ ] Docker containerization
+- [ ] Cloud deployment (Google Cloud Run)
+- [ ] Model retraining pipeline
+- [ ] Additional ML models (Random Forest, XGBoost)
+
+## 📄 License
+
+This repository is licensed under the MIT License. See the LICENSE file for more information.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a pull request or create an issue.
