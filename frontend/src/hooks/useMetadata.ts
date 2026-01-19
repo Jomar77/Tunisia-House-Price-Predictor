@@ -2,7 +2,8 @@
  * Custom hook for fetching model metadata using TanStack Query.
  */
 import { useQuery } from '@tanstack/react-query';
-import { apiClient, MetadataResponse } from '../api/client';
+import { apiClient } from '../api/client';
+import type { MetadataResponse } from '../api/client';
 
 export function useMetadata() {
   return useQuery<MetadataResponse, Error>({
