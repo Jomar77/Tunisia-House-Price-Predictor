@@ -1,11 +1,8 @@
 {
-  "schema_version": 1,
-  "numeric_features": [
-    "area",
-    "rooms",
-    "bathrooms",
-    "age"
-  ],
+  "_note": "This file has been moved to artifacts/columns.json",
+  "_redirect": "See artifacts/columns.json for the canonical version"
+}
+
   "data_columns": [
     "area",
     "rooms",

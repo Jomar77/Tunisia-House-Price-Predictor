@@ -48,8 +48,14 @@ The frontend will be available at `http://localhost:5173`.
 
 ## 📁 Project Structure
 
+**Organized & Clean**: This repository follows clear separation of concerns with all files in logical folders.
+
+See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) for detailed folder organization and design principles.
+
+### Quick Overview
+
 ```
-├── backend/                   # FastAPI backend
+├── backend/                  # FastAPI backend (hexagonal architecture)
 │   ├── domain/               # Core business logic
 │   │   ├── predictor.py      # Prediction service
 │   │   └── vectorizer.py     # Feature vectorization
@@ -57,31 +63,36 @@ The frontend will be available at `http://localhost:5173`.
 │   │   ├── api/              # FastAPI routes & schemas
 │   │   └── inference/        # Model loading (Safetensors)
 │   └── main.py               # Application entry point
-├── frontend/                  # React frontend
+├── frontend/                 # React + TypeScript + Vite SPA
 │   ├── src/
 │   │   ├── api/              # API client (native fetch)
 │   │   ├── components/       # React components
 │   │   ├── hooks/            # Custom hooks (TanStack Query)
 │   │   └── App.tsx           # Main app component
 │   └── package.json
-├── artifacts/                # Exported inference artifacts (preferred location)
+├── artifacts/                # Exported model artifacts (canonical location)
 │   ├── columns.json          # Feature schema (source of truth)
 │   ├── model_metadata.json   # Model training metadata
 │   └── tunisia_home_prices_model.safetensors  # Model weights
-├── docs/                     # Project docs (canonical)
-│   ├── SETUP.md
-│   ├── MASTER_TEST_PLAN.md
-│   └── IMPLEMENTATION_SUMMARY.md
 ├── notebooks/                # Training & exploration notebooks
-│   └── main.ipynb
-├── scripts/                  # Tooling (not production runtime)
+│   └── main.ipynb            # Training pipeline
+├── data/                     # Training data
+│   └── data.csv
+├── docs/                     # Project documentation
+│   ├── SETUP.md              # Installation guide
+│   ├── MASTER_TEST_PLAN.md   # Testing strategy
+│   └── IMPLEMENTATION_SUMMARY.md  # Build summary
+├── scripts/                  # Utility scripts (non-production)
 │   ├── verify_export.py      # Export parity verifier
 │   └── dataScrape.py         # Legacy scraper
-├── data.csv                  # Training dataset (legacy location)
-└── main.ipynb                # Training notebook (legacy location / pointer)
+├── tests/                    # Test suite
+├── loadtest/                 # K6 load testing scripts
+├── monitoring/               # SQL drift checks
+└── images/                   # Generated visualizations
+    └── heatmap.png
 ```
 
-Note: The backend prefers loading artifacts from `artifacts/` but will fall back to the repository root for backward compatibility.
+**Note**: Root-level `main.ipynb`, `columns.json`, and `model_metadata.json` are lightweight pointers for backward compatibility.
 
 ## 🔧 Features
 

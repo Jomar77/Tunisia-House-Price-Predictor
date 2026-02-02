@@ -36,6 +36,9 @@ env/
 # Jupyter Notebook
 .ipynb_checkpoints
 
+# Project-specific
+__pycache__/
+
 # Model artifacts (keep in repo for now, but typically excluded)
 # *.safetensors
 # *.pickle
