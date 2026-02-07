@@ -102,22 +102,26 @@ app = FastAPI(
 
 
 # Add CORS middleware (for development - tighten in production)
-if os.getenv("DEV_MODE") == "true":
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["http://localhost:5173", "http://localhost:3000"],  # Vite/React dev servers
-        allow_credentials=True,
-        allow_methods=["*"],
+def _parse_csv_env(value: str | None) -> list[str]:
+    if not value:
+        return []
+    return [item.strip() for item in value.split(",") if item.strip()]
+
+
+# CORS configuration
+# - In production, set CORS_ALLOW_ORIGINS to your frontend URL(s) (comma-separated).
+# - DEV_MODE=true keeps local dev defaults.
+cors_allow_origins = _parse_csv_env(os.getenv("CORS_ALLOW_ORIGINS"))
+if not cors_allow_origins and os.getenv("DEV_MODE") == "true":
+    cors_allow_origins = ["http://localhost:5173", "http://localhost:3000"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=cors_allow_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
     allow_headers=["*"],
 )
-else:
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=[],  # No origins allowed in production by default
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
 
 
 # Include API routes
