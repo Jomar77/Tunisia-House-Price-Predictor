@@ -2,6 +2,7 @@
 FastAPI application entry point.
 Handles lifespan events (model loading), middleware, and route registration.
 """
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
@@ -99,14 +100,24 @@ app = FastAPI(
 )
 
 
+
 # Add CORS middleware (for development - tighten in production)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],  # Vite/React dev servers
-    allow_credentials=True,
-    allow_methods=["*"],
+if os.getenv("DEV_MODE") == "true":
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["http://localhost:5173", "http://localhost:3000"],  # Vite/React dev servers
+        allow_credentials=True,
+        allow_methods=["*"],
     allow_headers=["*"],
 )
+else:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[],  # No origins allowed in production by default
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 
 # Include API routes

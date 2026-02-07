@@ -40,7 +40,15 @@ If missing, run the training notebook `main.ipynb` to generate them.
 #### Start the Backend
 
 ```bash
+# IMPORTANT: run this from the project root (the folder that contains `backend/`).
+# If you're currently inside `backend/`, first do: cd ..
 python -m uvicorn backend.main:app --reload --port 8000
+```
+
+If you prefer to run the command while your shell is inside the `backend/` directory, you can do:
+
+```bash
+python -m uvicorn backend.main:app --reload --port 8000 --app-dir ..
 ```
 
 The API will be available at:
