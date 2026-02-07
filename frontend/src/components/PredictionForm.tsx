@@ -1,10 +1,11 @@
 /**
  * Main prediction form component.
  */
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
+import type { FormEvent } from 'react';
 import { usePrediction } from '../hooks/usePrediction';
 import { useMetadata } from '../hooks/useMetadata';
-import { PredictionRequest } from '../api/client';
+import type { PredictionRequest } from '../api/client';
 
 export function PredictionForm() {
   const { data: metadata, isLoading: metadataLoading } = useMetadata();
