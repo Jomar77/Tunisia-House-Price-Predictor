@@ -1,11 +1,27 @@
 /**
  * Main prediction form component.
  */
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
 import { usePrediction } from '../hooks/usePrediction';
 import { useMetadata } from '../hooks/useMetadata';
 import type { PredictionRequest } from '../api/client';
+
+function ColdStartLoading(props: { message: string; seconds: number; messageKey: number }) {
+  return (
+    <div className="loading-panel" aria-live="polite" aria-busy="true">
+      <div key={props.messageKey} className="loading-message loading-fade-in">
+        {props.message}
+      </div>
+
+      {props.seconds >= 30 && (
+        <div className="loading-tip loading-fade-in">
+          Tip: If this takes more than 30 seconds, try reloading the page.
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function PredictionForm() {
   const { data: metadata, isLoading: metadataLoading } = useMetadata();
@@ -26,6 +42,37 @@ export function PredictionForm() {
     location: '',
   });
   const [validationError, setValidationError] = useState<string | null>(null);
+
+  const loadingMessages = useMemo(
+    () => [
+      'Warming up the backend (cold start)…',
+      'Fetching model metadata…',
+      'First request can take a few seconds…',
+      'Almost there…',
+    ],
+    []
+  );
+
+  const isColdStartLoading = metadataLoading || mutation.isPending;
+  const [loadingSeconds, setLoadingSeconds] = useState(0);
+  const [loadingTick, setLoadingTick] = useState(0);
+
+  useEffect(() => {
+    if (!isColdStartLoading) {
+      setLoadingSeconds(0);
+      setLoadingTick(0);
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      setLoadingSeconds((s) => s + 1);
+      setLoadingTick((t) => t + 1);
+    }, 2000);
+
+    return () => window.clearInterval(interval);
+  }, [isColdStartLoading]);
+
+  const loadingMessage = loadingMessages[loadingTick % loadingMessages.length];
 
   const validateForm = (data: PredictionRequest): string | null => {
     if (data.area < validationRanges.area.min || data.area > validationRanges.area.max) {
@@ -70,7 +117,7 @@ export function PredictionForm() {
   };
 
   if (metadataLoading) {
-    return <div className="loading">Loading model metadata...</div>;
+    return <ColdStartLoading message={loadingMessage} seconds={loadingSeconds} messageKey={loadingTick} />;
   }
 
   return (
@@ -160,6 +207,10 @@ export function PredictionForm() {
         <button type="submit" disabled={mutation.isPending}>
           {mutation.isPending ? 'Predicting...' : 'Predict Price'}
         </button>
+
+        {mutation.isPending && (
+          <ColdStartLoading message={loadingMessage} seconds={loadingSeconds} messageKey={loadingTick} />
+        )}
       </form>
 
       {mutation.isError && (
