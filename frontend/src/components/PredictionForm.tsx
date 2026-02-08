@@ -11,6 +11,13 @@ export function PredictionForm() {
   const { data: metadata, isLoading: metadataLoading } = useMetadata();
   const mutation = usePrediction();
 
+  const validationRanges = {
+    area: { min: 20, max: 22000 },
+    rooms: { min: 1, max: 50 },
+    bathrooms: { min: 1, max: 20 },
+    age: { min: 0, max: 100 },
+  } as const;
+
   const [formData, setFormData] = useState<PredictionRequest>({
     area: 100,
     rooms: 3,
@@ -18,9 +25,38 @@ export function PredictionForm() {
     age: 5,
     location: '',
   });
+  const [validationError, setValidationError] = useState<string | null>(null);
+
+  const validateForm = (data: PredictionRequest): string | null => {
+    if (data.area < validationRanges.area.min || data.area > validationRanges.area.max) {
+      return `Area must be between ${validationRanges.area.min} and ${validationRanges.area.max}.`;
+    }
+    if (data.rooms < validationRanges.rooms.min || data.rooms > validationRanges.rooms.max) {
+      return `Rooms must be between ${validationRanges.rooms.min} and ${validationRanges.rooms.max}.`;
+    }
+    if (
+      data.bathrooms < validationRanges.bathrooms.min ||
+      data.bathrooms > validationRanges.bathrooms.max
+    ) {
+      return `Bathrooms must be between ${validationRanges.bathrooms.min} and ${validationRanges.bathrooms.max}.`;
+    }
+    if (data.age < validationRanges.age.min || data.age > validationRanges.age.max) {
+      return `Age must be between ${validationRanges.age.min} and ${validationRanges.age.max}.`;
+    }
+    if (!data.location.trim()) {
+      return 'Please select a location.';
+    }
+    return null;
+  };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    const error = validateForm(formData);
+    if (error) {
+      setValidationError(error);
+      return;
+    }
+    setValidationError(null);
     mutation.mutate(formData);
   };
 
@@ -47,7 +83,8 @@ export function PredictionForm() {
           <input
             id="area"
             type="number"
-            min="1"
+            min={validationRanges.area.min}
+            max={validationRanges.area.max}
             step="0.1"
             value={formData.area}
             onChange={handleChange('area')}
@@ -60,7 +97,8 @@ export function PredictionForm() {
           <input
             id="rooms"
             type="number"
-            min="1"
+            min={validationRanges.rooms.min}
+            max={validationRanges.rooms.max}
             step="1"
             value={formData.rooms}
             onChange={handleChange('rooms')}
@@ -73,7 +111,8 @@ export function PredictionForm() {
           <input
             id="bathrooms"
             type="number"
-            min="1"
+            min={validationRanges.bathrooms.min}
+            max={validationRanges.bathrooms.max}
             step="1"
             value={formData.bathrooms}
             onChange={handleChange('bathrooms')}
@@ -86,7 +125,8 @@ export function PredictionForm() {
           <input
             id="age"
             type="number"
-            min="0"
+            min={validationRanges.age.min}
+            max={validationRanges.age.max}
             step="1"
             value={formData.age}
             onChange={handleChange('age')}
@@ -110,6 +150,12 @@ export function PredictionForm() {
             ))}
           </select>
         </div>
+
+        {validationError && (
+          <div className="error">
+            <strong>Error:</strong> {validationError}
+          </div>
+        )}
 
         <button type="submit" disabled={mutation.isPending}>
           {mutation.isPending ? 'Predicting...' : 'Predict Price'}
