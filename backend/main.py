@@ -9,12 +9,19 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 import json
 import logging
+from dotenv import load_dotenv
 
 from .adapters.inference.safetensors_model import SafetensorsLinearModel
 from .domain.vectorizer import FeatureVectorizer
 from .domain.predictor import PricePredictorService
 from .adapters.api import routes
 
+
+# Load .env early so CORS config sees DEV_MODE
+REPO_ROOT = Path(__file__).resolve().parent.parent
+env_path = REPO_ROOT / ".env"
+if env_path.exists():
+    load_dotenv(env_path)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -36,12 +43,11 @@ async def lifespan(app: FastAPI):
     logger.info("🚀 Starting Tunisia House Price Predictor API...")
     
     # Define paths to artifacts (prefer artifacts/; fallback to repo root)
-    repo_root = Path(__file__).resolve().parent.parent
-    artifacts_dir = repo_root / "artifacts"
+    artifacts_dir = REPO_ROOT / "artifacts"
 
     def artifact_path(filename: str) -> Path:
         preferred = artifacts_dir / filename
-        return preferred if preferred.exists() else (repo_root / filename)
+        return preferred if preferred.exists() else (REPO_ROOT / filename)
 
     model_path = artifact_path("tunisia_home_prices_model.safetensors")
     columns_path = artifact_path("columns.json")

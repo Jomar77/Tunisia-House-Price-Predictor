@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { PredictionForm } from './components/PredictionForm';
+import { SplitLayout } from './components/layout/SplitLayout';
 import './App.css';
 
 const queryClient = new QueryClient({
@@ -15,7 +15,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="app">
-        <PredictionForm />
+        <SplitLayout />
       </div>
     </QueryClientProvider>
   );
