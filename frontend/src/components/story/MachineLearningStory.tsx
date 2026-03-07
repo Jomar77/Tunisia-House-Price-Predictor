@@ -2,11 +2,11 @@ export function MachineLearningStory() {
   return (
     <div className="story-content">
       <h2>Machine Learning Pipeline</h2>
-      
+
       <section>
         <h3>1. Data Collection</h3>
         <p>
-          The journey started with web scraping Tunisian real estate listings using Python's 
+          The dataset was collected from Tunisian real estate listings using Python&apos;s
           BeautifulSoup and requests libraries. The scraper was designed to extract key features:
         </p>
         <ul>
@@ -21,48 +21,97 @@ export function MachineLearningStory() {
       <section>
         <h3>2. Data Cleaning & Preprocessing</h3>
         <p>
-          Raw data required extensive cleaning to handle outliers and missing values. 
-          Domain-specific heuristics were applied:
+          Raw data is cleaned with deterministic rules to reduce noisy labels and invalid listings.
+          The notebook applies these core equations:
         </p>
         <div className="code-block">
           <code>
-            # Per-location price sanity checks<br/>
-            # Room-to-area ratio validation<br/>
-            # Age bounds enforcement
+            price_per_m2 = price_eur / area<br/>
+            if count(location) &lt;= 10: location = "other"<br/>
+            keep if (μ_loc - σ_loc) &lt; price_per_m2 &lt;= (μ_loc + σ_loc)<br/>
+            drop if area / rooms &lt; 29.33<br/>
+            drop if bathrooms &gt;= rooms + 2
           </code>
         </div>
         <p>
-          Feature engineering included one-hot encoding for categorical location data while 
-          preserving the model's ability to generalize to unseen locations through an "other" category.
+          Age is normalized from range strings using <code>(a-b) / 2</code> semantics, i.e.
+          <code> age = (a + b) / 2 </code> for inputs like <code>&quot;5-10&quot;</code>, and numeric casts for single values.
+        </p>
+        <p>
+          A second location-specific room-consistency rule removes listings where a higher-room property
+          has lower <code>price_per_m2</code> than the location baseline of <code>rooms - 1</code>
+          (only when the baseline sample count is &gt; 5).
         </p>
       </section>
 
       <section>
         <h3>3. Model Training</h3>
         <p>
-          After comparing Linear Regression, Lasso, and Decision Trees, <strong>Linear Regression</strong> was 
-          selected for its interpretability and performance on this dataset.
+          After comparing Linear Regression, Lasso, and Decision Trees, <strong>Linear Regression</strong>
+          was selected for its interpretability and stable cross-validation performance.
         </p>
+        <p>The optimization target is mean squared error:</p>
+        <div className="code-block">
+          <code>
+            minimize (1 / n) * Σ(yᵢ - ŷᵢ)^2
+          </code>
+        </div>
+        <p>The prediction equation used at inference time is:</p>
+        <div className="code-block">
+          <code>
+            ŷ = x · w + b
+          </code>
+        </div>
         <p>
-          The model was trained in a Jupyter notebook with cross-validation to ensure robustness.
+          Train/test split and ShuffleSplit cross-validation are used to validate generalization before export.
         </p>
       </section>
 
       <section>
-        <h3>4. Model Export</h3>
+        <h3>4. Feature Vector Contract</h3>
         <p>
-          Instead of using pickle (security risks), we export model weights using <strong>Safetensors</strong>:
+          Inference strictly follows <code>columns.json</code> ordering. For each request:
         </p>
         <div className="code-block">
           <code>
-            safetensors.numpy.save_file(<br/>
-            &nbsp;&nbsp;{`{`}"weights": coefficients, "bias": intercept{`}`},<br/>
-            &nbsp;&nbsp;"tunisia_home_prices_model.safetensors"<br/>
-            )
+            x = zeros(len(data_columns))<br/>
+            x[idx("area")] = area<br/>
+            x[idx("rooms")] = rooms<br/>
+            x[idx("bathrooms")] = bathrooms<br/>
+            x[idx("age")] = age<br/>
+            x[idx(location)] = 1 (or idx("other") if unknown)
           </code>
         </div>
         <p>
-          Alongside <code>columns.json</code> for feature ordering, ensuring deterministic inference.
+          This guarantees deterministic mapping from API payloads to model input dimensions.
+        </p>
+      </section>
+
+      <section>
+        <h3>5. Notebook vs Production Runtime</h3>
+        <p>
+          The notebook helper function raises an error for unknown locations, while production backend
+          inference is more robust: it falls back to the <code>other</code> one-hot column when available.
+        </p>
+        <p>
+          This difference is intentional for API stability: exploratory notebook code is strict, runtime API
+          code is fault-tolerant for unseen user input.
+        </p>
+      </section>
+
+      <section>
+        <h3>6. Secure Model Export</h3>
+        <p>
+          Instead of pickle/joblib, model parameters are exported with <strong>Safetensors</strong> using explicit keys:
+        </p>
+        <div className="code-block">
+          <code>
+            save_file({`{`}"coef": w, "intercept": [b]{`}`}, "tunisia_home_prices_model.safetensors")
+          </code>
+        </div>
+        <p>
+          The artifact set includes <code>columns.json</code> (feature ordering) and
+          <code> model_metadata.json </code> (training metadata), making inference reproducible and safe.
         </p>
       </section>
     </div>
