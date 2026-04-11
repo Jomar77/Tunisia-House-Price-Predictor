@@ -139,12 +139,7 @@ Both frontend and backend are **RUNNING AND VERIFIED**:
 
 ## 📋 Next Steps (Optional Future Enhancements)
 
-1. Add PostgreSQL for prediction logging
-2. Implement user feedback collection
-3. Create Docker containers
-4. Deploy to Google Cloud Run
-5. Add automated tests (pytest + vitest)
-6. Implement CI/CD pipeline
+Optional next steps include adding PostgreSQL-backed prediction logging, implementing user feedback collection, formalizing Docker packaging, deploying the unified service to Railway, expanding automated tests with pytest and vitest, and hardening the CI/CD workflow for repeatable releases.
 
 ## 📁 Files Changed/Created
 

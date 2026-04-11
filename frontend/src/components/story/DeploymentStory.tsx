@@ -26,16 +26,10 @@ export function DeploymentStory() {
       </section>
 
       <section>
-        <h3>2. Cloud Platform: Google Cloud Run</h3>
+        <h3>2. Cloud Platform: Railway</h3>
         <p>
-          Serverless container deployment with key benefits:
+          Railway is the deployment target for this project, providing a streamlined container workflow with managed HTTPS and practical operational defaults for full-stack services. The same Docker image serves both the React static bundle and FastAPI API, and Railway handles scaling behavior while the application keeps startup latency low by loading model artifacts during app lifespan.
         </p>
-        <ul>
-          <li><strong>Auto-scaling</strong> - Scale to zero when idle, up to N instances under load</li>
-          <li><strong>Pay-per-use</strong> - Only charged for actual request time</li>
-          <li><strong>HTTPS</strong> - Automatic SSL certificate management</li>
-          <li><strong>Cold starts</strong> - Optimized with model preloading in lifespan</li>
-        </ul>
       </section>
 
       <section>
@@ -60,41 +54,22 @@ export function DeploymentStory() {
       <section>
         <h3>4. Database: Neon Postgres</h3>
         <p>
-          Serverless Postgres for prediction logging and feedback:
+          Neon Postgres remains the persistence layer for prediction logging and feedback, with pooled connections, async access patterns, and background tasks used so writes do not block inference responses. This keeps latency predictable in Railway deployments while preserving the project's stateless HTTP layer and durable storage boundary.
         </p>
-        <ul>
-          <li>Connection pooling via port 6432</li>
-          <li>Async SQLAlchemy for non-blocking queries</li>
-          <li>Background tasks to avoid blocking inference</li>
-          <li>Automatic backups and point-in-time recovery</li>
-        </ul>
       </section>
 
       <section>
         <h3>5. CI/CD Pipeline</h3>
         <p>
-          Automated deployment workflow:
+          The CI/CD flow runs from GitHub Actions by executing tests and lint checks, building the Docker image, publishing the artifact, and promoting the new Railway deployment with minimal service disruption. This keeps frontend and backend versions aligned in one release unit and reduces integration drift.
         </p>
-        <ol>
-          <li>Push to main branch triggers GitHub Actions</li>
-          <li>Run tests and linting</li>
-          <li>Build Docker image</li>
-          <li>Push to Google Container Registry</li>
-          <li>Deploy to Cloud Run with zero downtime</li>
-        </ol>
       </section>
 
       <section>
         <h3>6. Monitoring & Observability</h3>
         <p>
-          Production monitoring setup:
+          Production monitoring combines platform-level Railway metrics with structured application logging so request latency, error trends, and prediction events can be correlated quickly during incident response. Database query behavior is also tracked to catch regressions before they impact user-facing prediction performance.
         </p>
-        <ul>
-          <li>Cloud Run metrics (request count, latency, errors)</li>
-          <li>Structured logging for prediction events</li>
-          <li>Optional: Sentry for error tracking</li>
-          <li>Database query performance monitoring</li>
-        </ul>
       </section>
     </div>
   );

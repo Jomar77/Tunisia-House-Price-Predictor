@@ -172,12 +172,7 @@ VITE_API_URL=http://localhost:8000/api/v1
 
 ## 🎯 Future Enhancements
 
-- [ ] PostgreSQL integration for prediction logging
-- [ ] User feedback collection endpoint
-- [ ] Docker containerization
-- [ ] Cloud deployment (Google Cloud Run)
-- [ ] Model retraining pipeline
-- [ ] Additional ML models (Random Forest, XGBoost)
+Planned next steps include adding PostgreSQL-backed prediction logging and a dedicated feedback endpoint, finishing Docker-first deployment automation for Railway, extending the retraining pipeline, and evaluating additional models such as Random Forest and XGBoost while preserving the existing inference contract.
 
 ## 📄 License
 
