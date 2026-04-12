@@ -1,7 +1,7 @@
 /**
  * Main prediction form component.
  */
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import { usePrediction } from '../hooks/usePrediction';
 import { useMetadata } from '../hooks/useMetadata';
@@ -54,25 +54,29 @@ export function PredictionForm() {
   );
 
   const isColdStartLoading = metadataLoading || mutation.isPending;
-  const [loadingSeconds, setLoadingSeconds] = useState(0);
-  const [loadingTick, setLoadingTick] = useState(0);
+  const [loadingPulse, setLoadingPulse] = useState(0);
+  const loadingStartedAtRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!isColdStartLoading) {
-      setLoadingSeconds(0);
-      setLoadingTick(0);
+      loadingStartedAtRef.current = null;
       return;
     }
 
+    loadingStartedAtRef.current = Date.now();
+
     const interval = window.setInterval(() => {
-      setLoadingSeconds((s) => s + 1);
-      setLoadingTick((t) => t + 1);
+      setLoadingPulse((pulse) => pulse + 1);
     }, 2000);
 
     return () => window.clearInterval(interval);
   }, [isColdStartLoading]);
 
-  const loadingMessage = loadingMessages[loadingTick % loadingMessages.length];
+  const loadingSeconds =
+    isColdStartLoading && loadingStartedAtRef.current !== null
+      ? Math.floor((Date.now() - loadingStartedAtRef.current) / 1000)
+      : 0;
+  const loadingMessage = loadingMessages[Math.floor(loadingSeconds / 2) % loadingMessages.length];
 
   const validateForm = (data: PredictionRequest): string | null => {
     if (data.area < validationRanges.area.min || data.area > validationRanges.area.max) {
@@ -117,7 +121,7 @@ export function PredictionForm() {
   };
 
   if (metadataLoading) {
-    return <ColdStartLoading message={loadingMessage} seconds={loadingSeconds} messageKey={loadingTick} />;
+    return <ColdStartLoading message={loadingMessage} seconds={loadingSeconds} messageKey={loadingPulse} />;
   }
 
   return (
@@ -209,7 +213,7 @@ export function PredictionForm() {
         </button>
 
         {mutation.isPending && (
-          <ColdStartLoading message={loadingMessage} seconds={loadingSeconds} messageKey={loadingTick} />
+          <ColdStartLoading message={loadingMessage} seconds={loadingSeconds} messageKey={loadingPulse} />
         )}
       </form>
 
