@@ -1,3 +1,9 @@
-# This file has been superseded by /railway.toml at the repo root.
-# Railway picks up railway.toml from the root of the repository.
-# The canonical configuration lives there and uses the multi-stage Dockerfile.
+[build]
+buildCommand = "pip install -r requirements.txt"
+
+[deploy]
+startCommand = "uvicorn backend.main:app --host 0.0.0.0 --port $PORT"
+healthcheckPath = "/health"
+healthcheckTimeout = 100
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10
