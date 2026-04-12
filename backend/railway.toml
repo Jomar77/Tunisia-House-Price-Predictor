@@ -1,3 +1,0 @@
-# This file has been superseded by /railway.toml at the repo root.
-# Railway picks up railway.toml from the root of the repository.
-# The canonical configuration lives there and uses the multi-stage Dockerfile.

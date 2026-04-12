@@ -4,9 +4,15 @@ Primary adapter (driving) - HTTP interface.
 """
 from fastapi import APIRouter, HTTPException, Depends
 from .schemas import PredictionRequest, PredictionResponse, MetadataResponse, ErrorResponse
-from ...domain.predictor import PricePredictorService
 from typing import Annotated
 import json
+
+try:
+    # Package mode: backend.adapters.api.routes
+    from ...domain.predictor import PricePredictorService
+except ImportError:
+    # Script mode fallback: adapters.api.routes
+    from domain.predictor import PricePredictorService
 
 
 router = APIRouter(prefix="/api/v1", tags=["predictions"])
@@ -18,7 +24,10 @@ def get_predictor() -> PricePredictorService:
     Get the predictor service instance.
     This will be replaced with proper DI container in main.py
     """
-    from ...main import predictor_service
+    try:
+        from ...main import predictor_service
+    except ImportError:
+        from main import predictor_service
     return predictor_service
 
 

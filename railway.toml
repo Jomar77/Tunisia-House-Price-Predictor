@@ -1,15 +1,3 @@
-[build]
-# Railway builds the multi-stage Dockerfile at the repo root.
-# Stage 1 compiles the React/Vite frontend; Stage 2 produces the slim Python
-# production image with the built frontend bundle included.
-dockerfilePath = "Dockerfile"
-
-[deploy]
-# $PORT is injected by Railway; the Dockerfile CMD already uses it.
-# Explicitly declaring it here makes the value visible in the Railway dashboard
-# and allows Railway to override it if needed.
-startCommand = "uvicorn backend.main:app --host 0.0.0.0 --port $PORT"
-healthcheckPath = "/api/v1/health"
-healthcheckTimeout = 100
-restartPolicyType = "on_failure"
-restartPolicyMaxRetries = 5
+# This file has been superseded by /railway.toml at the repo root.
+# Railway picks up railway.toml from the root of the repository.
+# The canonical configuration lives there and uses the multi-stage Dockerfile.
