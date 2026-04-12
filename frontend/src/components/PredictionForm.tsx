@@ -1,20 +1,33 @@
 /**
  * Main prediction form component.
  */
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
 import { usePrediction } from '../hooks/usePrediction';
 import { useMetadata } from '../hooks/useMetadata';
 import type { PredictionRequest } from '../api/client';
 
-function ColdStartLoading(props: { message: string; seconds: number; messageKey: number }) {
+function ColdStartLoading(props: { messages: string[] }) {
+  const [loadingTick, setLoadingTick] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setLoadingTick((tick) => tick + 1);
+    }, 2000);
+
+    return () => window.clearInterval(interval);
+  }, []);
+
+  const message = props.messages[loadingTick % props.messages.length];
+  const seconds = loadingTick * 2;
+
   return (
     <div className="loading-panel" aria-live="polite" aria-busy="true">
-      <div key={props.messageKey} className="loading-message loading-fade-in">
-        {props.message}
+      <div key={loadingTick} className="loading-message loading-fade-in">
+        {message}
       </div>
 
-      {props.seconds >= 30 && (
+      {seconds >= 30 && (
         <div className="loading-tip loading-fade-in">
           Tip: If this takes more than 30 seconds, try reloading the page.
         </div>
@@ -52,31 +65,6 @@ export function PredictionForm() {
     ],
     []
   );
-
-  const isColdStartLoading = metadataLoading || mutation.isPending;
-  const [loadingPulse, setLoadingPulse] = useState(0);
-  const loadingStartedAtRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    if (!isColdStartLoading) {
-      loadingStartedAtRef.current = null;
-      return;
-    }
-
-    loadingStartedAtRef.current = Date.now();
-
-    const interval = window.setInterval(() => {
-      setLoadingPulse((pulse) => pulse + 1);
-    }, 2000);
-
-    return () => window.clearInterval(interval);
-  }, [isColdStartLoading]);
-
-  const loadingSeconds =
-    isColdStartLoading && loadingStartedAtRef.current !== null
-      ? Math.floor((Date.now() - loadingStartedAtRef.current) / 1000)
-      : 0;
-  const loadingMessage = loadingMessages[Math.floor(loadingSeconds / 2) % loadingMessages.length];
 
   const validateForm = (data: PredictionRequest): string | null => {
     if (data.area < validationRanges.area.min || data.area > validationRanges.area.max) {
@@ -121,7 +109,7 @@ export function PredictionForm() {
   };
 
   if (metadataLoading) {
-    return <ColdStartLoading message={loadingMessage} seconds={loadingSeconds} messageKey={loadingPulse} />;
+    return <ColdStartLoading messages={loadingMessages} />;
   }
 
   return (
@@ -213,7 +201,7 @@ export function PredictionForm() {
         </button>
 
         {mutation.isPending && (
-          <ColdStartLoading message={loadingMessage} seconds={loadingSeconds} messageKey={loadingPulse} />
+          <ColdStartLoading messages={loadingMessages} />
         )}
       </form>
 
