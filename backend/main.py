@@ -5,6 +5,7 @@ Handles lifespan events (model loading), middleware, and route registration.
 import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 from pathlib import Path
 import json
@@ -144,6 +145,17 @@ async def root():
         "docs": "/docs",
         "health": "/api/v1/health"
     }
+
+
+# Serve React frontend static files (production build).
+# Must be mounted LAST so API routes and the root endpoint above take priority.
+# html=True enables SPA fallback: unknown paths return index.html.
+_frontend_dist = REPO_ROOT / "frontend" / "dist"
+if _frontend_dist.exists():
+    app.mount("/", StaticFiles(directory=str(_frontend_dist), html=True), name="static")
+    logger.info(f"🌐 Serving frontend from {_frontend_dist}")
+else:
+    logger.info("ℹ️  Frontend dist not found — running in API-only mode")
 
 
 if __name__ == "__main__":

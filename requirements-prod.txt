@@ -1,0 +1,13 @@
+# Production Python dependencies only.
+# ML training/visualization libraries (matplotlib, seaborn) live in
+# requirements.txt (dev/notebook use) and are NOT needed at runtime.
+
+fastapi
+uvicorn[standard]
+pydantic
+python-dotenv
+safetensors
+numpy
+pandas
+scikit-learn
+aiofiles
