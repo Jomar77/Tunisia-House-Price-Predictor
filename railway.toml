@@ -5,7 +5,7 @@ dockerfilePath = "Dockerfile"
 
 [deploy]
 # $PORT is injected by Railway at runtime; the Dockerfile CMD already uses it.
-startCommand = "uvicorn backend.main:app --host 0.0.0.0 --port $PORT"
+startCommand = "python -m uvicorn backend.main:app --host 0.0.0.0 --port $PORT"
 # Platform-level liveness probe (does not require model to be loaded yet)
 healthcheckPath = "/health"
 healthcheckTimeout = 100
