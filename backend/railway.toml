@@ -1,5 +1,5 @@
 [build]
-buildCommand = "pip install -r requirements.txt"
+buildCommand = "pip install -r requirements.txt && mkdir -p artifacts && if [ -d ../artifacts ]; then cp -f ../artifacts/* artifacts/; fi"
 
 [deploy]
 startCommand = "ARTIFACTS_PATH=/app/artifacts uvicorn main:app --host 0.0.0.0 --port $PORT"
