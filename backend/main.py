@@ -25,11 +25,30 @@ except ImportError:
     from adapters.api import routes
 
 
+# Resolve runtime directories in a way that works for both layouts:
+# 1) repo-root run: backend/main.py exists under <repo>/backend
+# 2) backend-root deployment: main.py exists directly under app root
+APP_DIR = Path(__file__).resolve().parent
+REPO_ROOT = APP_DIR.parent if APP_DIR.name == "backend" else APP_DIR
+
+
+def _candidate_roots() -> list[Path]:
+    """Return likely roots to probe for config and artifacts."""
+    roots: list[Path] = [REPO_ROOT, APP_DIR, Path.cwd()]
+    unique: list[Path] = []
+    for root in roots:
+        root = root.resolve()
+        if root not in unique:
+            unique.append(root)
+    return unique
+
+
 # Load .env early so CORS config sees DEV_MODE
-REPO_ROOT = Path(__file__).resolve().parent.parent
-env_path = REPO_ROOT / ".env"
-if env_path.exists():
-    load_dotenv(env_path)
+for root in _candidate_roots():
+    env_path = root / ".env"
+    if env_path.exists():
+        load_dotenv(env_path)
+        break
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -50,12 +69,28 @@ async def lifespan(app: FastAPI):
     
     logger.info("🚀 Starting Tunisia House Price Predictor API...")
     
-    # Define paths to artifacts (prefer artifacts/; fallback to repo root)
-    artifacts_dir = REPO_ROOT / "artifacts"
-
     def artifact_path(filename: str) -> Path:
-        preferred = artifacts_dir / filename
-        return preferred if preferred.exists() else (REPO_ROOT / filename)
+        """Resolve artifact path from ARTIFACTS_PATH and common project layouts."""
+        candidates: list[Path] = []
+
+        # Explicit override for container deployments.
+        env_artifacts = os.getenv("ARTIFACTS_PATH")
+        if env_artifacts:
+            candidates.append(Path(env_artifacts) / filename)
+
+        # Common layouts: <root>/artifacts/<file> or <root>/<file>.
+        for root in _candidate_roots():
+            candidates.append(root / "artifacts" / filename)
+            candidates.append(root / filename)
+
+        for candidate in candidates:
+            if candidate.exists():
+                return candidate
+
+        checked = "\n".join(f"- {p}" for p in candidates)
+        raise FileNotFoundError(
+            f"Artifact '{filename}' not found. Checked:\n{checked}"
+        )
 
     model_path = artifact_path("tunisia_home_prices_model.safetensors")
     columns_path = artifact_path("columns.json")
