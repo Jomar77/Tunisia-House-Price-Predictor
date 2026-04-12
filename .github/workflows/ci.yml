@@ -58,13 +58,9 @@ jobs:
       - name: Build
         run: npm run build
 
-<<<<<<< HEAD
   # ── Docker: validate the backend-only Railway image builds successfully ──────
   # The frontend is deployed to Vercel directly from the frontend/ directory;
   # this job only validates the Python/FastAPI Railway image.
-=======
-  # ── Docker: validate the multi-stage image builds successfully ─────────────
->>>>>>> origin/main
   docker:
     name: Docker build
     runs-on: ubuntu-latest
