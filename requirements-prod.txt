@@ -10,4 +10,3 @@ safetensors
 numpy
 pandas
 scikit-learn
-aiofiles

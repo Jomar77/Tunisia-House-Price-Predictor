@@ -1,18 +1,7 @@
-# ── Stage 1: Build the React/Vite frontend ─────────────────────────────────
-FROM node:20-alpine AS frontend-build
-
-WORKDIR /app
-
-# Install dependencies (cache layer)
-COPY frontend/package.json frontend/package-lock.json ./
-RUN npm ci
-
-# Copy source and build
-COPY frontend/ ./
-RUN npm run build
-
-
-# ── Stage 2: Production Python image ────────────────────────────────────────
+# ── Backend-only production image (served on Railway) ────────────────────────
+# The React/Vite frontend is deployed separately to Vercel and is NOT included
+# in this image. The frontend communicates with this container via the Railway
+# public URL using the VITE_API_URL environment variable set in Vercel.
 FROM python:3.11-slim
 
 WORKDIR /app
@@ -31,9 +20,6 @@ COPY backend/ ./backend/
 
 # Copy model artifacts
 COPY artifacts/ ./artifacts/
-
-# Copy built frontend bundle
-COPY --from=frontend-build /app/dist ./frontend/dist
 
 EXPOSE 8000
 

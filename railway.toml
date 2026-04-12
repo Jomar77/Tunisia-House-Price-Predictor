@@ -1,9 +1,17 @@
 [build]
-buildCommand = "pip install -r requirements.txt"
+# Railway builds the backend Docker image at the repo root.
+# The React/Vite frontend is deployed separately to Vercel.
+dockerfilePath = "Dockerfile"
 
 [deploy]
+# $PORT is injected by Railway at runtime; the Dockerfile CMD already uses it.
 startCommand = "uvicorn backend.main:app --host 0.0.0.0 --port $PORT"
+# Platform-level liveness probe (does not require model to be loaded yet)
 healthcheckPath = "/health"
 healthcheckTimeout = 100
 restartPolicyType = "on_failure"
-restartPolicyMaxRetries = 10
+restartPolicyMaxRetries = 5
+# 5 retries is sufficient: model artifacts are loaded from the filesystem
+# during startup (no external network call), so a genuine crash is
+# unlikely to self-heal after more attempts.  Keeping this low avoids
+# crash-looping a broken image indefinitely.
