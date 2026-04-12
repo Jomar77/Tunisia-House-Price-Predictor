@@ -134,6 +134,16 @@ app.add_middleware(
 app.include_router(routes.router)
 
 
+# Platform liveness endpoint (does not depend on model readiness)
+@app.get("/health", tags=["health"])
+async def liveness_check() -> dict:
+    """Basic liveness probe for container platforms (Railway, etc.)."""
+    return {
+        "status": "ok",
+        "service": "tunisia-house-price-predictor"
+    }
+
+
 # Root endpoint
 @app.get("/", tags=["root"])
 async def root():
@@ -142,7 +152,8 @@ async def root():
         "service": "Tunisia House Price Predictor",
         "version": "1.0.0",
         "docs": "/docs",
-        "health": "/api/v1/health"
+        "liveness": "/health",
+        "readiness": "/api/v1/health"
     }
 
 
