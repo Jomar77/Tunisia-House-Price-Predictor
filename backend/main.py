@@ -11,10 +11,18 @@ import json
 import logging
 from dotenv import load_dotenv
 
-from .adapters.inference.safetensors_model import SafetensorsLinearModel
-from .domain.vectorizer import FeatureVectorizer
-from .domain.predictor import PricePredictorService
-from .adapters.api import routes
+try:
+    # Package mode (recommended): uvicorn backend.main:app
+    from .adapters.inference.safetensors_model import SafetensorsLinearModel
+    from .domain.vectorizer import FeatureVectorizer
+    from .domain.predictor import PricePredictorService
+    from .adapters.api import routes
+except ImportError:
+    # Script mode fallback: uvicorn main:app (cwd=backend)
+    from adapters.inference.safetensors_model import SafetensorsLinearModel
+    from domain.vectorizer import FeatureVectorizer
+    from domain.predictor import PricePredictorService
+    from adapters.api import routes
 
 
 # Load .env early so CORS config sees DEV_MODE
@@ -160,7 +168,7 @@ async def root():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
-        "backend.main:app",
+        "main:app",
         host="0.0.0.0",
         port=8000,
         reload=True,
