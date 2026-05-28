@@ -29,7 +29,7 @@ class PredictionRequest(BaseModel):
                     "rooms": 3.0,
                     "bathrooms": 2.0,
                     "age": 5.0,
-                    "location": "Hammamet"
+                    "location": "Auckland"
                 }
             ]
         }
@@ -46,13 +46,13 @@ class PredictionResponse(BaseModel):
         "json_schema_extra": {
             "examples": [
                 {
-                    "predicted_price": 250000.0,
+                    "predicted_price": 950000.0,
                     "inputs": {
                         "area": 150.0,
                         "rooms": 3.0,
                         "bathrooms": 2.0,
                         "age": 5.0,
-                        "location": "Hammamet"
+                        "location": "Auckland"
                     }
                 }
             ]

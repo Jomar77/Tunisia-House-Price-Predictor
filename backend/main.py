@@ -68,7 +68,19 @@ async def lifespan(app: FastAPI):
     """
     global predictor_service
     
-    logger.info("🚀 Starting Tunisia House Price Predictor API...")
+    logger.info("🚀 Starting New Zealand House Price Predictor API...")
+
+    def first_existing_artifact(*filenames: str) -> Path:
+        """Resolve the first artifact that exists from a list of candidates."""
+        last_error: FileNotFoundError | None = None
+        for filename in filenames:
+            try:
+                return artifact_path(filename)
+            except FileNotFoundError as exc:
+                last_error = exc
+        if last_error:
+            raise last_error
+        raise FileNotFoundError("No artifact candidates were provided")
     
     def artifact_path(filename: str) -> Path:
         """Resolve artifact path from ARTIFACTS_PATH and common project layouts."""
@@ -93,7 +105,10 @@ async def lifespan(app: FastAPI):
             f"Artifact '{filename}' not found. Checked:\n{checked}"
         )
 
-    model_path = artifact_path("tunisia_home_prices_model.safetensors")
+    model_path = first_existing_artifact(
+        "nz_home_prices_model.safetensors",
+        "tunisia_home_prices_model.safetensors",
+    )
     columns_path = artifact_path("columns.json")
     
     try:
@@ -141,8 +156,8 @@ async def lifespan(app: FastAPI):
 
 # Create FastAPI application
 app = FastAPI(
-    title="Tunisia House Price Predictor API",
-    description="Predict house prices in Tunisia using Linear Regression with Safetensors",
+    title="New Zealand House Price Predictor API",
+    description="Predict house prices in New Zealand using safe Safetensors artifacts",
     version="1.0.0",
     lifespan=lifespan,
     docs_url="/docs",
@@ -184,7 +199,7 @@ async def liveness_check() -> dict:
     """Basic liveness probe for container platforms (Railway, etc.)."""
     return {
         "status": "ok",
-        "service": "tunisia-house-price-predictor"
+        "service": "new-zealand-house-price-predictor"
     }
 
 
@@ -193,7 +208,7 @@ async def liveness_check() -> dict:
 async def root():
     """Root endpoint - API information."""
     return {
-        "service": "Tunisia House Price Predictor",
+        "service": "New Zealand House Price Predictor",
         "version": "1.0.0",
         "docs": "/docs",
         "liveness": "/health",

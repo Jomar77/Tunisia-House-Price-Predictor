@@ -1,28 +1,28 @@
 :root {
-  --terracotta: #e2725b;
-  --chile-rojo: #c21807;
-  --olive: #6b8e23;
-  --sunset: #f28c28;
-  --primary-color: var(--terracotta);
-  --primary-hover: #d9654c;
-  --error-color: var(--chile-rojo);
-  --success-color: var(--olive);
-  --bg-color: #f8efe6;
-  --card-bg: #fff7f0;
-  --text-color: #3b1f17;
-  --border-color: #e7d7cc;
-  --shadow: 0 1px 3px rgba(59, 31, 23, 0.12);
-  --shadow-lg: 0 16px 30px rgba(59, 31, 23, 0.16);
+  --fern: #0f6a4f;
+  --pohutukawa: #b63b3b;
+  --pounamu: #2b8c7a;
+  --sunrise: #e2a95d;
+  --primary-color: var(--fern);
+  --primary-hover: #0c5a43;
+  --error-color: var(--pohutukawa);
+  --success-color: var(--pounamu);
+  --bg-color: #eef5f2;
+  --card-bg: #f8fbfb;
+  --text-color: #17312d;
+  --border-color: #d5e4dd;
+  --shadow: 0 1px 3px rgba(23, 49, 45, 0.12);
+  --shadow-lg: 0 16px 30px rgba(23, 49, 45, 0.16);
 
   /* Split layout colors */
-  --panel-bg: #fff7f0;
-  --panel-border: #e6d4c7;
-  --tab-bg: #f3e6dc;
-  --tab-hover: #eed9ca;
-  --tab-active-bg: #fffaf6;
-  --tab-active-border: var(--sunset);
-  --resize-handle: #d8c1b4;
-  --resize-handle-hover: var(--sunset);
+  --panel-bg: #f8fbfb;
+  --panel-border: #d9e7e1;
+  --tab-bg: #e7f1ed;
+  --tab-hover: #dceae5;
+  --tab-active-bg: #fbfdfd;
+  --tab-active-border: var(--sunrise);
+  --resize-handle: #bfd1c8;
+  --resize-handle-hover: var(--sunrise);
 }
 
 * {
@@ -35,9 +35,9 @@ body {
   font-family: 'Sora', sans-serif;
   background-color: var(--bg-color);
   background-image:
-    radial-gradient(circle at 12% 18%, rgba(242, 140, 40, 0.18), transparent 46%),
-    radial-gradient(circle at 86% 14%, rgba(226, 114, 91, 0.18), transparent 40%),
-    linear-gradient(180deg, #fff4ea 0%, #f8efe6 100%);
+    radial-gradient(circle at 12% 18%, rgba(15, 106, 79, 0.16), transparent 46%),
+    radial-gradient(circle at 86% 14%, rgba(43, 140, 122, 0.16), transparent 40%),
+    linear-gradient(180deg, #f7fbfa 0%, #eef5f2 100%);
   color: var(--text-color);
   line-height: 1.6;
 }
@@ -236,7 +236,7 @@ body {
   box-shadow: var(--shadow-lg);
   max-width: 600px;
   width: 100%;
-  border: 1px solid rgba(194, 24, 7, 0.08);
+  border: 1px solid rgba(15, 106, 79, 0.08);
 }
 
 .prediction-form h1 {

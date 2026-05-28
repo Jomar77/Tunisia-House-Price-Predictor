@@ -1,6 +1,6 @@
-# Tunisia House Price Predictor
+# New Zealand House Price Predictor
 
-A full-stack web application for predicting house prices in Tunisia using machine learning. The system uses a Linear Regression model trained on Tunisian real estate data and exposes predictions through a modern React frontend connected to a FastAPI backend.
+A full-stack web application for predicting house prices in New Zealand using machine learning. This clone is being retargeted from the Tunisia project into a New Zealand-focused scaffold, with the same React + FastAPI architecture and a fresh NZ training/data pipeline.
 
 ## 🏗️ Architecture
 
@@ -8,7 +8,7 @@ This project follows a **Hexagonal Architecture** (Ports & Adapters) pattern:
 
 - **Frontend**: React + TypeScript + Vite + TanStack Query
 - **Backend**: FastAPI (async) with hexagonal architecture
-- **Model**: Linear Regression with Safetensors (no pickle)
+- **Model**: Safe artifact loading with Safetensors (no pickle)
 - **Deployment Ready**: Containerizable, serverless-compatible
 
 ## 🚀 Quick Start
@@ -92,7 +92,7 @@ See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) for detailed folder o
     └── heatmap.png
 ```
 
-**Note**: Root-level `main.ipynb`, `columns.json`, and `model_metadata.json` are lightweight pointers for backward compatibility.
+**Note**: Root-level `columns.json` and `model_metadata.json` are lightweight pointers for backward compatibility.
 
 ## 🔧 Features
 
@@ -100,7 +100,7 @@ See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) for detailed folder o
 - ✨ Clean, responsive UI with real-time validation
 - 📍 Dynamic location dropdown loaded from API
 - 🔄 Loading states and error handling
-- 💰 Formatted price predictions in EUR
+- 💰 Formatted price predictions in NZD
 
 ### Backend
 - ⚡ Fast async API with automatic documentation
@@ -117,18 +117,15 @@ See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) for detailed folder o
 
 ## 📊 Dataset
 
-The model is trained on Tunisian house price data including:
-- **Numeric Features**: Area (m²), Rooms, Bathrooms, Age (years)
-- **Categorical Features**: Location (60+ Tunisian locations)
-- **Target**: House price in EUR
+The NZ-focused clone is intended to train on New Zealand house price data. The exact feature contract depends on the NZ dataset you provide, but the current backend still uses the same feature-vector contract driven by `columns.json` until the NZ training pipeline is finalized.
 
 ## 🧠 Model Training
 
 The model is trained using the Jupyter notebook `main.ipynb`:
 
 1. Data cleaning and outlier removal
-2. Feature engineering (one-hot encoding for locations)
-3. Linear Regression training
+2. Feature engineering for the NZ property dataset
+3. Model training
 4. Export to Safetensors format
 5. Generate `columns.json` and `model_metadata.json`
 

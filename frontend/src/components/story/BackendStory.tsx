@@ -61,7 +61,7 @@ export function BackendStory() {
           <code>
             # Load once at startup (FastAPI lifespan)<br/>
             model = SafetensorsModel.load(<br/>
-            &nbsp;&nbsp;"artifacts/tunisia_home_prices_model.safetensors"<br/>
+            &nbsp;&nbsp;"artifacts/nz_home_prices_model.safetensors"<br/>
             )<br/>
             <br/>
             # Feature vectorization using columns.json<br/>

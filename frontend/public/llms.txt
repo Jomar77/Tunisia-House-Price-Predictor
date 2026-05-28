@@ -1,4 +1,4 @@
-Tunisia House Price Predictor is a full-stack application that estimates home prices in Tunisia using a Linear Regression model. The frontend is built with React and Vite, and the backend is built with FastAPI using a hexagonal architecture. The model is serialized with Safetensors and metadata files, with feature ordering governed by columns.json.
+New Zealand House Price Predictor is a full-stack application that estimates home prices in New Zealand using Safetensors-backed model artifacts. The frontend is built with React and Vite, and the backend is built with FastAPI using a hexagonal architecture. Feature ordering is governed by columns.json.
 
 The production deployment target is Railway, where a single container serves both static frontend assets and backend API endpoints. The system is designed so model loading occurs at application startup and inference remains fast while non-critical persistence writes can run asynchronously.
 
