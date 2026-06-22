@@ -58,8 +58,8 @@ export function PredictionForm() {
 
   const loadingMessages = useMemo(
     () => [
-      'Warming up the New Zealand backend (cold start)…',
-      'Fetching NZ model metadata…',
+      'Warming up the Tunisia backend (cold start)…',
+      'Fetching Tunisia model metadata…',
       'First request can take a few seconds…',
       'Almost there…',
     ],
@@ -115,7 +115,7 @@ export function PredictionForm() {
 
   return (
     <div className="prediction-form">
-      <h1>New Zealand House Price Predictor</h1>
+      <h1>Tunisia House Price Predictor</h1>
       
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -216,7 +216,7 @@ export function PredictionForm() {
         <div className="result">
           <h2>Predicted Price</h2>
           <p className="price">
-            NZ${mutation.data.predicted_price.toLocaleString('en-NZ', {
+            TND {mutation.data.predicted_price.toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })}

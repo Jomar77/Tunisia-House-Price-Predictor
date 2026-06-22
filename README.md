@@ -1,6 +1,6 @@
-# New Zealand House Price Predictor
+# Tunisia House Price Predictor
 
-A full-stack web application for predicting house prices in New Zealand using machine learning. This clone is being retargeted from the Tunisia project into a New Zealand-focused scaffold, with the same React + FastAPI architecture and a fresh NZ training/data pipeline.
+A full-stack web application for predicting house prices in Tunisia using machine learning.
 
 ## 🏗️ Architecture
 
@@ -100,7 +100,7 @@ See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) for detailed folder o
 - ✨ Clean, responsive UI with real-time validation
 - 📍 Dynamic location dropdown loaded from API
 - 🔄 Loading states and error handling
-- 💰 Formatted price predictions in NZD
+- 💰 Formatted price predictions in TND
 
 ### Backend
 - ⚡ Fast async API with automatic documentation
@@ -117,14 +117,14 @@ See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) for detailed folder o
 
 ## 📊 Dataset
 
-The NZ-focused clone is intended to train on New Zealand house price data. The exact feature contract depends on the NZ dataset you provide, but the current backend still uses the same feature-vector contract driven by `columns.json` until the NZ training pipeline is finalized.
+The model is trained on Tunisian house price data. The backend uses the feature-vector contract driven by columns.json.
 
 ## 🧠 Model Training
 
 The model is trained using the Jupyter notebook `main.ipynb`:
 
 1. Data cleaning and outlier removal
-2. Feature engineering for the NZ property dataset
+2. Feature engineering for the Tunisian property dataset
 3. Model training
 4. Export to Safetensors format
 5. Generate `columns.json` and `model_metadata.json`

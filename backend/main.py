@@ -68,7 +68,7 @@ async def lifespan(app: FastAPI):
     """
     global predictor_service
     
-    logger.info("🚀 Starting New Zealand House Price Predictor API...")
+    logger.info("🚀 Starting Tunisia House Price Predictor API...")
 
     def first_existing_artifact(*filenames: str) -> Path:
         """Resolve the first artifact that exists from a list of candidates."""
@@ -106,7 +106,6 @@ async def lifespan(app: FastAPI):
         )
 
     model_path = first_existing_artifact(
-        "nz_home_prices_model.safetensors",
         "tunisia_home_prices_model.safetensors",
     )
     columns_path = artifact_path("columns.json")
@@ -156,8 +155,8 @@ async def lifespan(app: FastAPI):
 
 # Create FastAPI application
 app = FastAPI(
-    title="New Zealand House Price Predictor API",
-    description="Predict house prices in New Zealand using safe Safetensors artifacts",
+    title="Tunisia House Price Predictor API",
+    description="Predict house prices in Tunisia using safe Safetensors artifacts",
     version="1.0.0",
     lifespan=lifespan,
     docs_url="/docs",
@@ -199,7 +198,7 @@ async def liveness_check() -> dict:
     """Basic liveness probe for container platforms (Railway, etc.)."""
     return {
         "status": "ok",
-        "service": "new-zealand-house-price-predictor"
+        "service": "tunisia-house-price-predictor"
     }
 
 
@@ -208,7 +207,7 @@ async def liveness_check() -> dict:
 async def root():
     """Root endpoint - API information."""
     return {
-        "service": "New Zealand House Price Predictor",
+        "service": "Tunisia House Price Predictor",
         "version": "1.0.0",
         "docs": "/docs",
         "liveness": "/health",

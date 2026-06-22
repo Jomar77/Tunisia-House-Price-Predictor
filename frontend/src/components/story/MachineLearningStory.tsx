@@ -6,15 +6,15 @@ export function MachineLearningStory() {
       <section>
         <h3>1. Data Collection</h3>
         <p>
-          This clone is being retargeted to New Zealand property data. The training pipeline is
-          expected to ingest a New Zealand housing dataset and extract key features such as:
+          This project is built around Tunisian property data. The training pipeline is
+          designed to ingest a Tunisian housing dataset and extract key features such as:
         </p>
         <ul>
           <li><strong>Area (m²)</strong> - Property size</li>
           <li><strong>Rooms</strong> - Number of bedrooms</li>
           <li><strong>Bathrooms</strong> - Number of bathrooms</li>
           <li><strong>Age</strong> - Property age in years</li>
-          <li><strong>Location</strong> - New Zealand region or suburb</li>
+          <li><strong>Location</strong> - Tunisian region or suburb</li>
         </ul>
       </section>
 
@@ -22,7 +22,7 @@ export function MachineLearningStory() {
         <h3>2. Data Cleaning & Preprocessing</h3>
         <p>
           Raw data should be cleaned with deterministic rules to reduce noisy labels and invalid
-          listings. The notebook should apply location-aware sanity checks tailored to the NZ market:
+          listings. The notebook should apply location-aware sanity checks tailored to the Tunisian market:
         </p>
         <div className="code-block">
           <code>
@@ -46,7 +46,7 @@ export function MachineLearningStory() {
       <section>
         <h3>3. Model Training</h3>
         <p>
-          The NZ clone can start with a simple baseline model and iterate from there. Linear Regression
+          The model starts with a simple baseline and iterates from there. Linear Regression
           remains a good default if you want an interpretable model and a stable export contract.
         </p>
         <p>The optimization target is mean squared error:</p>
@@ -105,7 +105,7 @@ export function MachineLearningStory() {
         </p>
         <div className="code-block">
           <code>
-            save_file({`{`}"coef": w, "intercept": [b]{`}`}, "nz_home_prices_model.safetensors")
+            save_file({`{`}"coef": w, "intercept": [b]{`}`}, "tunisia_home_prices_model.safetensors")
           </code>
         </div>
         <p>
