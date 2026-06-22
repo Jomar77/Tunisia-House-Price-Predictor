@@ -162,8 +162,8 @@ def _parse_csv_env(value: str | None) -> list[str]:
 # - In production, set CORS_ALLOW_ORIGINS to your frontend URL(s) (comma-separated).
 # - DEV_MODE=true keeps local dev defaults.
 cors_allow_origins = _parse_csv_env(os.getenv("CORS_ALLOW_ORIGINS"))
-if not cors_allow_origins and os.getenv("DEV_MODE") == "true":
-    cors_allow_origins = ["http://localhost:5173", "http://localhost:3000"]
+if not cors_allow_origins:
+    cors_allow_origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
