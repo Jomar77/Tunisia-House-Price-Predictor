@@ -136,6 +136,6 @@ async def health_check(predictor: PredictorDep) -> dict:
     """
     return {
         "status": "healthy",
-        "service": "new-zealand-house-price-predictor",
+        "service": "tunisia-house-price-predictor",
         "model_loaded": True
     }
