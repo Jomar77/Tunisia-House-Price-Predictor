@@ -1,7 +1,7 @@
 /**
  * Main prediction form component.
  */
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
 import { usePrediction } from '../hooks/usePrediction';
 import { useMetadata } from '../hooks/useMetadata';
