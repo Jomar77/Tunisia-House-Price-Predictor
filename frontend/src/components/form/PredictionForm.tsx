@@ -182,7 +182,7 @@ export function PredictionForm() {
             required
           >
             <option value="">Select a location...</option>
-            {metadata?.supported_locations.map((loc) => (
+            {metadata?.supported_locations?.map((loc) => (
               <option key={loc} value={loc}>
                 {loc}
               </option>
