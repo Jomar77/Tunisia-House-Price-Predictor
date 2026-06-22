@@ -1,6 +1,6 @@
-# Tunisia House Price Predictor - Setup Guide
+# New Zealand House Price Predictor - Setup Guide
 
-This guide will help you get the Tunisia House Price Predictor running locally.
+This guide will help you get the New Zealand House Price Predictor running locally.
 
 ## 🎯 System Requirements
 
@@ -15,7 +15,7 @@ This guide will help you get the Tunisia House Price Predictor running locally.
 
 ```bash
 git clone <repository-url>
-cd tunisia-house-price-predictor
+cd new-zealand-house-price-predictor
 ```
 
 ### 2. Backend Setup
@@ -29,13 +29,13 @@ pip install -r requirements.txt
 #### Verify Model Artifacts
 
 Preferred: ensure these files exist under `artifacts/`:
-- `artifacts/tunisia_home_prices_model.safetensors` - Model weights
+- `artifacts/nz_home_prices_model.safetensors` - Model weights
 - `artifacts/columns.json` - Feature schema
 - `artifacts/model_metadata.json` - Model metadata
 
 Backward compatible: the backend will also look in the repository root for these files.
 
-If missing, run the training notebook `main.ipynb` to generate them.
+If missing, run the NZ training script in `Machine Learning/scripts/train_nz.py` to generate them.
 
 #### Start the Backend
 
@@ -100,7 +100,7 @@ Try the `/api/v1/predict` endpoint with this sample data:
   "rooms": 3,
   "bathrooms": 2,
   "age": 5,
-  "location": "Hammamet"
+  "location": "Auckland"
 }
 ```
 
@@ -112,9 +112,9 @@ Try the `/api/v1/predict` endpoint with this sample data:
    - Rooms: 3
    - Bathrooms: 2
    - Age: 5 years
-   - Location: Select from dropdown (e.g., "Hammamet")
+  - Location: Select from dropdown (e.g., "Auckland")
 3. Click "Predict Price"
-4. You should see a predicted price in EUR
+4. You should see a predicted price in NZD
 
 ## 🔧 Troubleshooting
 

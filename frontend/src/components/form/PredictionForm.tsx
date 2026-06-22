@@ -1,7 +1,7 @@
 /**
  * Main prediction form component.
  */
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import { usePrediction } from '../../hooks/usePrediction';
 import { useMetadata } from '../../hooks/useMetadata';
@@ -58,13 +58,14 @@ export function PredictionForm() {
 
   const loadingMessages = useMemo(
     () => [
-      'Warming up the backend (cold start)…',
-      'Fetching model metadata…',
+      'Warming up the New Zealand backend (cold start)…',
+      'Fetching NZ model metadata…',
       'First request can take a few seconds…',
       'Almost there…',
     ],
     []
   );
+
 
   const validateForm = (data: PredictionRequest): string | null => {
     if (data.area < validationRanges.area.min || data.area > validationRanges.area.max) {
@@ -114,7 +115,7 @@ export function PredictionForm() {
 
   return (
     <div className="prediction-form">
-      <h1>Tunisia House Price Predictor</h1>
+      <h1>New Zealand House Price Predictor</h1>
       
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -215,7 +216,7 @@ export function PredictionForm() {
         <div className="result">
           <h2>Predicted Price</h2>
           <p className="price">
-            €{mutation.data.predicted_price.toLocaleString('fr-FR', {
+            NZ${mutation.data.predicted_price.toLocaleString('en-NZ', {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })}
