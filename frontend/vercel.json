@@ -1,5 +1,9 @@
 {
   "rewrites": [
+    {
+      "source": "/api/v1/:path*",
+      "destination": "https://tunisia-house-price-predictor-production.up.railway.app/api/v1/:path*"
+    },
     { "source": "/(.*)", "destination": "/" }
   ],
   "headers": [
