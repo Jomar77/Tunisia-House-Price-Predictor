@@ -64,3 +64,5 @@ SESSION_NOTES.md
 .env
 .env.*
 !.env.example
+
+.playwright-mcp/
